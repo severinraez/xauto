@@ -78,7 +78,6 @@ class SplitV < Split
   def perform
     padding = 10
 
-    puts bounding_box
     windows.each_with_index do |window, index|
       place_window(window, padding, top_left, bounding_box, index, windows.size)
     end
@@ -88,7 +87,6 @@ class SplitV < Split
   def place_window(window, padding, top_left, bounding_box, index, num_windows)
     x = top_left[0]
     y = top_left[1] + (bounding_box[1] / num_windows) * index
-    pp tl: top_left, bb: bounding_box, i: index, n: num_windows
     window.move(x, y)
 
     w = bounding_box[0]
