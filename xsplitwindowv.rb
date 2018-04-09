@@ -16,7 +16,8 @@ class Program
     SplitV.new(
       [target, other],
       [bounding_box[:x], bounding_box[:y]],
-      [bounding_box[:w], bounding_box[:h]]
+      [bounding_box[:w], bounding_box[:h]],
+      10
     ).perform
   end
 end

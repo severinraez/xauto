@@ -12,7 +12,9 @@ class Program
       Window.by_click
     end
 
-    SplitH.new(windows, [0,0], Display.size).perform
+    padding = 50
+    size = Display.size.map{ |d| d-padding }
+    SplitH.new(windows, [padding,padding], size, padding).perform
   end
 end
 

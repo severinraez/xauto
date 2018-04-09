@@ -44,53 +44,53 @@ class Window
 end
 
 class Split
-  attr :windows, :top_left, :bounding_box
+  attr :windows, :top_left, :bounding_box, :spacing
 
-  def initialize(windows, top_left, bounding_box)
+  def initialize(windows, top_left, bounding_box, spacing)
     @windows = windows
     @top_left = top_left
     @bounding_box = bounding_box
+    @spacing = spacing
   end
-end
 
-class SplitH < Split
   def perform
-    padding = 100
-
     windows.each_with_index do |window, index|
-      place_window(window, padding, top_left, bounding_box, index, windows.size)
+      place_window(window, spacing, top_left, bounding_box, index, windows.size)
     end
   end
 
   private
-  def place_window(window, padding, top_left, bounding_box, index, num_windows)
-    x = padding + index * ((bounding_box[0] - padding*2)/num_windows)
-    y = padding
+  def spaced_size(total_length, spacing, num_windows)
+    (total_length - (num_windows - 1) * spacing) / num_windows
+  end
+
+  def spaced_position(total_length, spacing, num_windows, index)
+    index * (spacing + spaced_size(total_length, spacing, num_windows))
+  end
+end
+
+class SplitH < Split
+  private
+  def place_window(window, spacing, top_left, bounding_box, index, num_windows)
+    x = top_left[0] + spaced_position(bounding_box[0], spacing, num_windows, index)
+    y = top_left[1]
     window.move(x, y)
 
-    w = (bounding_box[0] - padding * 2 - (num_windows - 1) * padding) / num_windows
-    h = bounding_box[1] - padding * 2
+    w = spaced_size(bounding_box[0], spacing, num_windows)
+    h = bounding_box[1]
     window.resize(w, h)
   end
 end
 
 class SplitV < Split
-  def perform
-    padding = 10
-
-    windows.each_with_index do |window, index|
-      place_window(window, padding, top_left, bounding_box, index, windows.size)
-    end
-  end
-
   private
-  def place_window(window, padding, top_left, bounding_box, index, num_windows)
+  def place_window(window, spacing, top_left, bounding_box, index, num_windows)
     x = top_left[0]
-    y = top_left[1] + (bounding_box[1] / num_windows) * index
+    y = top_left[1] + spaced_position(bounding_box[1], spacing, num_windows, index)
     window.move(x, y)
 
     w = bounding_box[0]
-    h = (bounding_box[1] / num_windows) - padding
+    h = spaced_size(bounding_box[1], spacing, num_windows)
     window.resize(w, h)
   end
 end
