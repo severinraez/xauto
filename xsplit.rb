@@ -9,7 +9,7 @@ class Program
     windows = (0..2).map do |n|
       puts "Need #{panes-n} more windows"
 
-      Window.by_click
+      window = Window.by_click
 
       if window.nil?
         puts "Desktop clicked, aborting"
