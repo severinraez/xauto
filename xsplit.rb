@@ -10,6 +10,13 @@ class Program
       puts "Need #{panes-n} more windows"
 
       Window.by_click
+
+      if window.nil?
+        puts "Desktop clicked, aborting"
+        exit
+      end
+
+      window
     end
 
     padding = 50

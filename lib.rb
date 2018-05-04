@@ -18,6 +18,8 @@ class Window
   def self.by_click
     id = Shell.run("xdotool selectwindow").to_i
 
+    return nil if desktop?(id)
+
     Window.new(id)
   end
 
@@ -40,6 +42,11 @@ class Window
     w, h = geometry.scan(/(\d+)x(\d+)/).first.map(&:to_i)
 
     { x: x, y: y, w: w, h: h }
+  end
+
+  private
+  def self.desktop?(window_id)
+    Shell.run("xdotool getwindowname #{window_id}") == 'Desktop'
   end
 end
 

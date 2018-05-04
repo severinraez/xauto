@@ -9,7 +9,14 @@ class Program
     target, other = (0..1).map do |n|
       puts "Need #{slices-n} more windows"
 
-      Window.by_click
+      window = Window.by_click
+
+      if window.nil?
+        puts "Desktop clicked, aborting"
+        exit
+      end
+
+      window
     end
 
     bounding_box = target.geometry
