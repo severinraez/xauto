@@ -54,8 +54,10 @@ class Split
   end
 
   def perform
-    windows.each_with_index do |window, index|
-      place_window(window, spacing, top_left, bounding_box, index, windows.size)
+    (1..3).each do # doing this repeatedly fixes some issues with glued windows
+      windows.each_with_index do |window, index|
+        place_window(window, spacing, top_left, bounding_box, index, windows.size)
+      end
     end
   end
 
